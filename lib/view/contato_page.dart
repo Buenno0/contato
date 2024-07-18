@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:contato/model/contato_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContatoPage extends StatefulWidget {
   const ContatoPage({super.key, this.contato});
@@ -17,6 +18,7 @@ class _ContatoPageState extends State<ContatoPage> {
 final _nomeController = TextEditingController();
 final _emailController = TextEditingController();
 final _foneController = TextEditingController();
+final ImagePicker _imagePicker = ImagePicker();
 final _nomeFocus = FocusNode();
 
 
@@ -82,6 +84,14 @@ bool _userEdited = false;
           child: Column(
             children: [
               GestureDetector(
+                onTap: () {
+                 _imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                    if(file == null) return;
+                    setState(() {
+                      _editedContato.img = file.path;
+                    });
+                  });
+                },
                 child: Container(
                   width: 140,
                   height: 140,
